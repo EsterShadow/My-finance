@@ -1,0 +1,662 @@
+/* =============================================
+   ПЕРЕМЕННЫЕ
+   ============================================= */
+:root {
+  --accent:       #5E463D;
+  --bg:           #EDE7DD;
+  --text:         #28150F;
+  --text-inv:     #FFFFFF;
+  --latte:        #DBC1A2;
+  --bean:         #B69267;
+  --card-bg:      #FFFFFF;
+  --nav-h:        56px;
+  --safe-b:       env(safe-area-inset-bottom, 0px);
+  --radius:       10px;
+  --font:         -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* дробная часть суммы и знак ₽ — на 30% меньше */
+.dec {
+  font-size: 0.7em;
+  vertical-align: baseline;
+}
+
+/* =============================================
+   RESET
+   ============================================= */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  font-family: var(--font);
+  color: var(--text);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+input, button {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+/* =============================================
+   LAYOUT
+   ============================================= */
+.app {
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+/* tab-content занимает оставшуюся высоту и скроллится */
+.tab-content {
+  display: none;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(var(--safe-b) + 16px);
+}
+
+.tab-content.active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* =============================================
+   НИЖНЯЯ НАВИГАЦИЯ
+   ============================================= */
+.bottom-nav {
+  flex-shrink: 0;
+  height: calc(var(--nav-h) + var(--safe-b));
+  background: var(--bg);
+  border-top: 1px solid var(--latte);
+  display: flex;
+  align-items: flex-start;
+  padding-top: 6px;
+  padding-bottom: var(--safe-b);
+  position: relative;
+  z-index: 10;
+}
+
+.nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 0;
+  color: var(--bean);
+  font-size: 11px;
+  font-weight: 400;
+  transition: color 0.15s;
+}
+
+.nav-btn.active {
+  color: var(--accent);
+}
+
+/* =============================================
+   ЭКРАН: РАСХОДЫ
+   ============================================= */
+.expense-top {
+  padding: 20px 16px 0;
+  flex-shrink: 0;
+}
+
+.date-label {
+  font-size: 15px;
+  color: var(--text);
+  cursor: pointer;
+  display: inline-block;
+  border-bottom: 1px dashed var(--latte);
+  margin-bottom: 4px;
+}
+
+.date-input-hidden {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.amount-wrap {
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+
+.amount-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 44px;
+  font-weight: 300;
+  color: var(--text);
+  outline: none;
+  line-height: 1.1;
+}
+
+.amount-input::placeholder {
+  color: var(--text);
+  opacity: 1;
+}
+
+.expense-middle {
+  flex-shrink: 0;
+  border-top: 1px solid var(--latte);
+}
+
+.field-row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--latte);
+  padding: 0 16px;
+}
+
+.field-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 13px 0;
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+}
+
+.field-input::placeholder {
+  color: rgba(40, 21, 15, 0.7);
+  opacity: 1;
+}
+
+/* Кнопка «добавить новую категорию» */
+.btn-add-cat {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--text-inv);
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Список категорий */
+.category-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.category-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 16px;
+  font-size: 15px;
+  color: var(--text);
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  user-select: none;
+}
+
+.category-item.selected {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.category-item.long-pressed {
+  background: #F5EDE5;
+}
+
+.btn-delete-cat {
+  padding: 4px 8px;
+  background: #CC3333;
+  color: white;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+/* Кнопка «Новая запись» — sticky внизу списка категорий */
+.btn-save-wrap {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  padding: 12px 16px 4px;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--text-inv);
+  border-radius: 28px;
+  padding: 15px 52px;
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+}
+
+.btn-primary:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* =============================================
+   ЭКРАН: ОТЧЁТЫ
+   ============================================= */
+.reports-list {
+  padding: 16px 16px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.report-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 16px;
+  cursor: pointer;
+}
+
+.report-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.report-total {
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--accent);
+  letter-spacing: -0.5px;
+}
+
+.report-card-icons {
+  display: flex;
+  gap: 10px;
+  color: var(--latte);
+  font-size: 16px;
+  margin-top: 4px;
+}
+
+.report-period {
+  font-size: 13px;
+  color: var(--bean);
+  margin-top: 2px;
+  margin-bottom: 12px;
+}
+
+.report-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.report-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 14px;
+  gap: 8px;
+}
+
+.report-row-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+}
+
+.report-row-amount {
+  flex-shrink: 0;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.report-empty-note {
+  font-size: 13px;
+  color: var(--latte);
+}
+
+/* горизонтальный топ-3 для карточек Неделя / Месяц / Год */
+.report-top3 {
+  display: flex;
+  gap: 4px;
+}
+
+.report-top3-item {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.report-top3-amount {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.report-top3-label {
+  font-size: 11px;
+  color: var(--bean);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-add-report-wrap {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  padding: 4px 16px 12px;
+}
+
+.btn-add-report {
+  background: var(--accent);
+  color: var(--text-inv);
+  border-radius: 28px;
+  padding: 15px 52px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* =============================================
+   ЭКРАН: ИСТОРИЯ
+   ============================================= */
+.history-header {
+  flex-shrink: 0;
+  background: var(--accent);
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.search-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.18);
+  border: none;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 15px;
+  color: var(--text-inv);
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.btn-export {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--text-inv);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.history-list {
+  flex: 1;
+}
+
+.history-day-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px 6px;
+  background: var(--bg);
+  position: sticky;
+  top: 49px;
+  z-index: 4;
+}
+
+.history-day-date {
+  font-size: 14px;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.history-day-total {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.history-row {
+  display: flex;
+  align-items: center;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--latte);
+  gap: 8px;
+}
+
+.history-row-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.history-row-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.history-category {
+  font-size: 15px;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.history-amount {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.history-note {
+  font-size: 13px;
+  color: var(--bean);
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-delete-expense {
+  flex-shrink: 0;
+  color: var(--latte);
+  font-size: 16px;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.btn-delete-expense:active {
+  color: #CC3333;
+}
+
+.history-empty {
+  text-align: center;
+  padding: 40px 16px;
+  font-size: 15px;
+  color: var(--bean);
+}
+
+/* =============================================
+   МОДАЛЬНОЕ ОКНО
+   ============================================= */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 200;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-sheet {
+  background: var(--bg);
+  width: 100%;
+  max-width: 430px;
+  border-radius: 14px 14px 0 0;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: var(--safe-b);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid var(--latte);
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.modal-close {
+  color: var(--bean);
+  font-size: 18px;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.modal-body {
+  overflow-y: auto;
+  flex: 1;
+  padding: 4px 16px 20px;
+}
+
+.modal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--latte);
+  font-size: 15px;
+  gap: 8px;
+}
+
+.modal-row-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modal-row-amount {
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+.modal-empty {
+  text-align: center;
+  padding: 32px 0;
+  color: var(--bean);
+  font-size: 15px;
+}
+
+/* =============================================
+   iOS ПОДСКАЗКА
+   ============================================= */
+.ios-hint {
+  position: fixed;
+  bottom: calc(var(--nav-h) + var(--safe-b) + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 398px;
+  background: var(--accent);
+  color: var(--text-inv);
+  padding: 12px 40px 12px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+  z-index: 150;
+}
+
+.ios-hint.hidden {
+  display: none;
+}
+
+.ios-hint-close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* =============================================
+   ДЕСКТОП — ЦЕНТРИРОВАНИЕ
+   ============================================= */
+@media (min-width: 431px) {
+  body {
+    display: flex;
+    justify-content: center;
+    background: #D4C4B5;
+  }
+
+  .app {
+    width: 430px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.12);
+  }
+
+  .modal-sheet {
+    border-radius: 14px 14px 0 0;
+  }
+}
