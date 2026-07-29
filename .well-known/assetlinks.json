@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.estershadow.twa",
+        "sha256_cert_fingerprints": ["A1:07:40:6A:24:B8:DD:B3:E1:87:A9:45:4F:12:64:4F:15:01:0F:FB:1D:B5:6D:E3:A8:B7:D8:01:A1:4D:07:F1"]
+      }
+    }]
