@@ -50,7 +50,8 @@ function _normalizeImport(json) {
           note: e.note || '',
           ...(e.ts ? { ts: Number(e.ts) } : {})
         })),
-      categories: Array.isArray(json.categories) ? json.categories.map(String) : []
+      categories: Array.isArray(json.categories) ? json.categories.map(String) : [],
+      reports: Array.isArray(json.reports) ? json.reports : null
     };
   }
 
@@ -76,7 +77,7 @@ function _normalizeImport(json) {
     const cats = Array.isArray(json.categories)
       ? json.categories.map(String)
       : [...new Set(expenses.map(e => e.category))];
-    return { expenses, categories: cats };
+    return { expenses, categories: cats, reports: null };
   }
 
   return null;
@@ -93,7 +94,10 @@ function importData(json) {
   // категориями из файла (в репозитории остаются только 10 стандартных,
   // личный список появляется на устройстве только из твоих данных).
   const replaceCategories = data.expenses.length === 0 && incoming.categories.length > 0;
-  if (replaceCategories) data.categories = [];
+  if (replaceCategories) {
+    data.categories = [];
+    if (incoming.reports) data.reports = incoming.reports; // свой бэкап — вместе с отчётами
+  }
 
   const existingIds = new Set(data.expenses.map(e => e.id));
   let added = 0, skipped = 0;
@@ -130,7 +134,11 @@ function replaceAllData(json) {
   [...incoming.categories, ...incoming.expenses.map(e => e.category)].forEach(c => {
     if (!lower.has(c.toLowerCase())) { lower.add(c.toLowerCase()); cats.push(c); }
   });
-  _saveData({ expenses: incoming.expenses, categories: cats });
+  _saveData({
+    expenses: incoming.expenses,
+    categories: cats,
+    reports: incoming.reports || (_getData() || {}).reports || defaultReports()
+  });
   return incoming.expenses.length;
 }
 
@@ -140,7 +148,8 @@ function buildBackupObject() {
     version: 1,
     exportedAt: new Date().toISOString(),
     expenses: getExpenses(),
-    categories: getCategories()
+    categories: getCategories(),
+    reports: getReports()
   };
 }
 

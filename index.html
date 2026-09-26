@@ -16,76 +16,69 @@
 
   <div class="app">
 
-    <!-- ===== TAB: ОТЧЁТЫ ===== -->
+    <!-- ===== ОТЧЁТЫ ===== -->
     <div id="tab-reports" class="tab-content">
+      <div id="reports-pinned"></div>
       <div id="reports-list" class="reports-list"></div>
       <div class="btn-add-report-wrap">
-        <button id="btn-new-report" class="btn-add-report">Новый отчёт</button>
+        <button id="btn-new-report" class="btn-primary">Новый отчёт</button>
       </div>
     </div>
 
-    <!-- ===== TAB: РАСХОДЫ ===== -->
+    <!-- ===== РАСХОДЫ ===== -->
     <div id="tab-expenses" class="tab-content active">
       <div class="expense-top">
-        <span id="expense-date-label" class="date-label">сегодня</span>
-        <input type="date" id="expense-date-input" class="date-input-hidden">
-        <div class="amount-wrap">
-          <input
-            type="text"
-            id="amount-input"
-            class="amount-input"
-            inputmode="decimal"
-            placeholder="0,00"
-            autocomplete="off"
-          >
-        </div>
+        <button id="expense-date-label" class="date-label">сегодня</button>
+        <input type="text" id="amount-input" class="amount-input" inputmode="decimal" placeholder="0,00" autocomplete="off">
       </div>
 
-      <div class="expense-middle">
-        <div class="field-row">
-          <input
-            type="text"
-            id="category-search"
-            class="field-input"
-            placeholder="Начните вводить категорию"
-            autocomplete="off"
-          >
-          <button id="btn-add-category" class="btn-add-cat hidden" title="Добавить новую категорию">✓</button>
-        </div>
-        <div id="note-row" class="field-row hidden">
-          <input
-            type="text"
-            id="note-input"
-            class="field-input"
-            placeholder="Заметка (необязательно)"
-            autocomplete="off"
-          >
-        </div>
+      <div class="field-row">
+        <input type="text" id="category-search" class="field-input" placeholder="Начните вводить категорию" autocomplete="off">
+        <button id="btn-add-category" class="btn-add-cat hidden" aria-label="Создать категорию">✓</button>
+        <button id="btn-clear-category" class="btn-clear-cat hidden" aria-label="Сбросить категорию">✕</button>
+      </div>
+      <div id="note-row" class="field-row note-row hidden">
+        <input type="text" id="note-input" class="field-input" placeholder="Описание" autocomplete="off">
       </div>
 
       <div id="category-list" class="category-list"></div>
 
       <div class="btn-save-wrap">
-        <button id="btn-save-expense" class="btn-primary" disabled>Новая запись</button>
+        <button id="btn-save-expense" class="btn-primary">Новая запись</button>
       </div>
     </div>
 
-    <!-- ===== TAB: ИСТОРИЯ ===== -->
+    <!-- ===== ИСТОРИЯ ===== -->
     <div id="tab-history" class="tab-content">
       <div class="history-header">
-        <input type="text" id="history-search" class="search-input" placeholder="Поиск">
-        <button id="btn-export-csv" class="btn-export" title="Экспорт в Excel">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-          CSV
-        </button>
-        <button id="btn-data-menu" class="btn-export" title="Бэкап и импорт" aria-label="Бэкап и импорт">⋮</button>
-        <input type="file" id="import-file-input" accept=".json,application/json" hidden>
+        <label class="history-search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input type="text" id="history-search" placeholder="Поиск" autocomplete="off">
+        </label>
+        <div class="history-summary">
+          <div class="history-summary-main">
+            <div id="history-total" class="history-total"></div>
+            <div class="history-period">
+              <button id="hp-from"></button><span>/</span><button id="hp-to"></button>
+            </div>
+          </div>
+          <div class="history-actions">
+            <button id="btn-view-toggle" class="icon-btn"></button>
+            <button id="btn-filter" class="icon-btn" aria-label="Фильтр">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+            </button>
+            <button id="btn-data-menu" class="icon-btn" aria-label="Данные">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg>
+            </button>
+          </div>
+        </div>
       </div>
       <div id="history-list" class="history-list"></div>
+      <div id="history-snackbar" class="snackbar hidden">
+        <span class="snackbar-text"></span>
+        <button class="snackbar-action">Сбросить</button>
+      </div>
+      <input type="file" id="import-file-input" accept=".json,application/json" hidden>
     </div>
 
     <!-- ===== НИЖНЯЯ НАВИГАЦИЯ ===== -->
@@ -121,28 +114,19 @@
 
   </div>
 
-  <!-- ===== МОДАЛЬНОЕ ОКНО (детализация отчёта) ===== -->
-  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
-    <div class="modal-sheet">
-      <div class="modal-header">
-        <span id="modal-title" class="modal-title"></span>
-        <button id="modal-close" class="modal-close" aria-label="Закрыть">✕</button>
-      </div>
-      <div id="modal-body" class="modal-body"></div>
-    </div>
-  </div>
-
-  <!-- ===== iOS ПОДСКАЗКА ===== -->
-  <div id="ios-hint" class="ios-hint hidden">
-    Добавьте на главный экран: нажмите <strong>⎙</strong> → «На экран "Домой"»
-    <button id="ios-hint-close" class="ios-hint-close" aria-label="Закрыть">✕</button>
-  </div>
-
+  <script src="js/periods.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/reports.js"></script>
+  <script src="js/ui.js"></script>
   <script src="js/export.js"></script>
   <script src="js/backup.js"></script>
   <script src="js/cloud.js"></script>
+  <script src="js/filter-editor.js"></script>
+  <script src="js/editor.js"></script>
+  <script src="js/categories.js"></script>
+  <script src="js/expenses.js"></script>
+  <script src="js/dashboards.js"></script>
+  <script src="js/history.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
