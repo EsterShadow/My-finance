@@ -83,7 +83,7 @@ function openDialog(contentEl, { onClose } = {}) {
   });
 }
 
-// Меню действий: [{ label, run, danger? }]
+// Меню действий: [{ label, run, hint?, danger? } | { label, info: true }]
 function openActionMenu(title, actions) {
   const box = document.createElement('div');
   box.className = 'dialog action-menu';
@@ -95,6 +95,13 @@ function openActionMenu(title, actions) {
   }
   let chosen = null;
   actions.forEach(a => {
+    if (a.info) { // неактивная строка-подпись (например, версия)
+      const d = document.createElement('div');
+      d.className = 'action-menu-info';
+      d.textContent = a.label;
+      box.appendChild(d);
+      return;
+    }
     const b = document.createElement('button');
     b.className = 'action-menu-item' + (a.danger ? ' danger' : '');
     b.innerHTML = a.hint

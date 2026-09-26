@@ -160,7 +160,8 @@ function openDataMenu() {
     { label: 'Категории', hint: 'Переименовать, удалить, добавить', run: openCategoriesScreen },
     { label: 'Экспорт в CSV', hint: 'Для Excel: дата, категория, сумма, описание', run: exportToCSV },
     { label: 'Сохранить бэкап (JSON)', hint: 'Все записи, категории и отчёты одним файлом', run: exportBackupJSON },
-    { label: 'Загрузить из файла', hint: 'Бэкап My Finance или экспорт из Depoza. Дубли пропускаются', run: () => document.getElementById('import-file-input').click() }
+    { label: 'Загрузить из файла', hint: 'Бэкап My Finance или экспорт из Depoza. Дубли пропускаются', run: () => document.getElementById('import-file-input').click() },
+    { label: `Версия ${APP_VERSION}`, info: true }
   );
   openActionMenu('Данные', actions);
 }

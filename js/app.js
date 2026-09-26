@@ -3,6 +3,9 @@
    Экраны: expenses.js (Расходы), dashboards.js (Отчёты), history.js (История)
    ============================================= */
 
+// Версия приложения — менять вместе с новой записью в CHANGELOG.md
+const APP_VERSION = '2.0.0';
+
 let activeTab = 'expenses';
 
 function switchTab(tabId) {
