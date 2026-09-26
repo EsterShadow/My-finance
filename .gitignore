@@ -5,3 +5,15 @@ node_modules/
 *.log
 .env
 .env.*
+
+# Личные данные — никогда не коммитить
+depoza_export*
+myfinance_backup*.json
+расходы_*.csv
+transactions.txt
+categories.txt
+dashboards.txt
+counters.txt
+*.keystore
+*.jks
+signing-key-info.txt

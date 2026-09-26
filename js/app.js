@@ -412,6 +412,82 @@ function renderHistory(filter) {
 }
 
 // =============================================
+// БЭКАП И ИМПОРТ (меню в шапке Истории)
+// =============================================
+
+function refreshAllScreens() {
+  renderCategoryList(document.getElementById('category-search').value);
+  renderHistory(document.getElementById('history-search').value);
+  renderReports();
+}
+
+function _formatBackupTime(ts) {
+  if (!ts) return 'ещё не было';
+  const d = new Date(ts);
+  const time = d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+  const date = getTodayStr() === _isoDate(d) ? 'сегодня' : d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+  return `${date} в ${time}`;
+}
+
+function _cloudMenuAction() {
+  if (!cloudIsConfigured()) {
+    return { label: 'Dropbox: не настроен', hint: 'В js/cloud.js нужно указать App key', run: () => {} };
+  }
+  if (!cloudIsConnected()) {
+    return {
+      label: 'Подключить Dropbox',
+      hint: 'Автоматическая копия после каждого изменения. Если в Dropbox уже есть копия — данные восстановятся',
+      run: cloudConnect
+    };
+  }
+  const s = cloudStatus();
+  const status = s.lastError
+    ? `⚠ Копия не дошла: ${s.lastError}. Нажмите, чтобы повторить`
+    : `Последняя копия: ${_formatBackupTime(s.lastBackupAt)}. Нажмите, чтобы отправить сейчас`;
+  return { label: 'Dropbox: подключён', hint: status, run: cloudBackupNow };
+}
+
+function openDataMenu() {
+  document.getElementById('modal-title').textContent = 'Данные';
+  const body = document.getElementById('modal-body');
+  body.innerHTML = '';
+
+  const actions = [
+    _cloudMenuAction(),
+    ...(cloudIsConnected() ? [{
+      label: 'Отключить Dropbox',
+      hint: 'Копия в Dropbox останется, новые изменения перестанут отправляться',
+      run: () => { if (confirm('Отключить автоматическую копию в Dropbox?')) cloudDisconnect(); }
+    }] : []),
+    {
+      label: 'Сохранить бэкап (JSON)',
+      hint: 'Все записи и категории одним файлом',
+      run: exportBackupJSON
+    },
+    {
+      label: 'Загрузить из файла',
+      hint: 'Бэкап My Finance или экспорт из Depoza. Данные добавляются, дубли пропускаются',
+      run: () => document.getElementById('import-file-input').click()
+    }
+  ];
+
+  actions.forEach(a => {
+    const row = document.createElement('div');
+    row.className = 'modal-row modal-action';
+    row.innerHTML = `
+      <span class="modal-row-label">${a.label}<br><small class="modal-action-hint">${a.hint}</small></span>
+    `;
+    row.addEventListener('click', () => {
+      document.getElementById('modal').classList.add('hidden');
+      a.run();
+    });
+    body.appendChild(row);
+  });
+
+  document.getElementById('modal').classList.remove('hidden');
+}
+
+// =============================================
 // iOS ПОДСКАЗКА
 // =============================================
 
@@ -453,6 +529,27 @@ document.addEventListener('DOMContentLoaded', () => {
   // Экспорт CSV
   document.getElementById('btn-export-csv').addEventListener('click', exportToCSV);
 
+  // Бэкап и импорт
+  document.getElementById('btn-data-menu').addEventListener('click', openDataMenu);
+  document.getElementById('import-file-input').addEventListener('change', e => {
+    const file = e.target.files[0];
+    e.target.value = '';
+    if (!file) return;
+    importFromFile(file)
+      .then(({ added, skipped, newCategories, replacedCategories }) => {
+        alert(
+          `Импорт завершён.\n` +
+          `Добавлено записей: ${added}\n` +
+          (skipped ? `Пропущено (уже были): ${skipped}\n` : '') +
+          (replacedCategories
+            ? `Категории взяты из файла: ${newCategories} (стандартные убраны)`
+            : `Новых категорий: ${newCategories}`)
+        );
+        refreshAllScreens();
+      })
+      .catch(err => alert('Не удалось импортировать файл: ' + err.message));
+  });
+
   // Модальное окно — закрытие
   document.getElementById('modal-close').addEventListener('click', () => {
     document.getElementById('modal').classList.add('hidden');
@@ -474,6 +571,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
   }
+
+  // Автокопия в Dropbox (в т.ч. обработка возврата после входа в Dropbox)
+  cloudInit();
 
   // Активный таб по умолчанию — Расходы
   renderCategoryList('');

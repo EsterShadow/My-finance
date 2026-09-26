@@ -2,12 +2,17 @@
    ПЕРЕМЕННЫЕ
    ============================================= */
 :root {
-  --accent:       #5E463D;
-  --bg:           #EDE7DD;
-  --text:         #28150F;
+  /* Палитра Depoza (из ресурсов APK com.depoza 1.50) */
+  --accent:       #E66E02;   /* primary / accent — кнопки, шапки, активные элементы */
+  --accent-dark:  #C45E02;   /* primary_dark — нажатое состояние */
+  --accent-soft:  #FECFA5;   /* history_toolbar_btn_secondary — вторичный текст на оранжевом */
+  --accent-tint:  #FFF1E5;   /* лёгкая подсветка выделенного */
+  --bg:           #FAFAFA;   /* bg_light — фон экранов */
+  --text:         #222222;   /* dashboard_title — основной текст */
   --text-inv:     #FFFFFF;
-  --latte:        #DBC1A2;
-  --bean:         #B69267;
+  --latte:        #E6E6E6;   /* разделители и рамки */
+  --muted:        #9E9E9E;   /* неактивные иконки, пустые состояния */
+  --bean:         #737373;   /* подписи, вторичный текст */
   --card-bg:      #FFFFFF;
   --nav-h:        56px;
   --safe-b:       env(safe-area-inset-bottom, 0px);
@@ -86,7 +91,7 @@ button {
 .bottom-nav {
   flex-shrink: 0;
   height: calc(var(--nav-h) + var(--safe-b));
-  background: var(--bg);
+  background: var(--card-bg);
   border-top: 1px solid var(--latte);
   display: flex;
   align-items: flex-start;
@@ -182,7 +187,7 @@ button {
 }
 
 .field-input::placeholder {
-  color: rgba(40, 21, 15, 0.7);
+  color: #777777;
   opacity: 1;
 }
 
@@ -230,7 +235,7 @@ button {
 }
 
 .category-item.long-pressed {
-  background: #F5EDE5;
+  background: var(--accent-tint);
 }
 
 .btn-delete-cat {
@@ -300,7 +305,7 @@ button {
 .report-card-icons {
   display: flex;
   gap: 10px;
-  color: var(--latte);
+  color: var(--muted);
   font-size: 16px;
   margin-top: 4px;
 }
@@ -343,7 +348,7 @@ button {
 
 .report-empty-note {
   font-size: 13px;
-  color: var(--latte);
+  color: var(--muted);
 }
 
 /* горизонтальный топ-3 для карточек Неделя / Месяц / Год */
@@ -434,6 +439,20 @@ button {
   flex-shrink: 0;
 }
 
+/* копия в Dropbox не дошла — точка на кнопке ⋮ */
+#btn-data-menu { position: relative; }
+#btn-data-menu.has-warning::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2px solid #CC3333;
+}
+
 .history-list {
   flex: 1;
 }
@@ -506,7 +525,7 @@ button {
 
 .btn-delete-expense {
   flex-shrink: 0;
-  color: var(--latte);
+  color: var(--muted);
   font-size: 16px;
   padding: 4px;
   line-height: 1;
@@ -648,7 +667,7 @@ button {
   body {
     display: flex;
     justify-content: center;
-    background: #D4C4B5;
+    background: #E0E0E0;
   }
 
   .app {
@@ -660,3 +679,9 @@ button {
     border-radius: 14px 14px 0 0;
   }
 }
+
+/* меню «Данные» (бэкап и импорт) */
+.modal-action { cursor: pointer; }
+.modal-action:active { background: var(--accent-tint); }
+.modal-action-hint { display: block; margin-top: 2px; font-size: 12px; color: var(--bean); font-weight: 400; }
+.modal-action .modal-row-label { white-space: normal; overflow: visible; text-overflow: clip; }

@@ -27,6 +27,8 @@ function _getData() {
 
 function _saveData(data) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  // Автокопия в Dropbox после каждого изменения (см. cloud.js)
+  if (typeof cloudScheduleBackup === 'function') cloudScheduleBackup();
 }
 
 function initData() {
