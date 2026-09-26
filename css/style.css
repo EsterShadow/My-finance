@@ -1,3 +1,12 @@
+/* Roboto (как в Depoza) — свои файлы шрифта, чтобы тонкое начертание
+   одинаково работало на любом телефоне. Лицензия: fonts/OFL.txt */
+@font-face { font-family: 'Roboto App'; font-style: normal; font-weight: 300; font-display: swap; src: url(../fonts/roboto-cyrillic-300-normal.woff2) format('woff2'); unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116; }
+@font-face { font-family: 'Roboto App'; font-style: normal; font-weight: 300; font-display: swap; src: url(../fonts/roboto-latin-300-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: 'Roboto App'; font-style: normal; font-weight: 400; font-display: swap; src: url(../fonts/roboto-cyrillic-400-normal.woff2) format('woff2'); unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116; }
+@font-face { font-family: 'Roboto App'; font-style: normal; font-weight: 400; font-display: swap; src: url(../fonts/roboto-latin-400-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: 'Roboto App'; font-style: normal; font-weight: 500; font-display: swap; src: url(../fonts/roboto-cyrillic-500-normal.woff2) format('woff2'); unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116; }
+@font-face { font-family: 'Roboto App'; font-style: normal; font-weight: 500; font-display: swap; src: url(../fonts/roboto-latin-500-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+
 /* =============================================
    ПЕРЕМЕННЫЕ
    ============================================= */
@@ -8,7 +17,10 @@
   --accent-soft:  #FECFA5;   /* history_toolbar_btn_secondary — вторичный текст на оранжевом */
   --accent-tint:  #FFF1E5;   /* лёгкая подсветка выделенного */
   --bg:           #FAFAFA;   /* bg_light — фон экранов */
-  --text:         #222222;   /* dashboard_title — основной текст */
+  --text:         #444444;   /* основной текст (Depoza: описания и суммы #444) */
+  --text-soft:    #666666;   /* списки категорий, поля ввода (Depoza #666) */
+  --text-hint:    #999999;   /* плейсхолдеры (Depoza #999) */
+  --amount:       #6E6E6E;   /* крупная сумма на экране ввода (Depoza #6e6e6e) */
   --text-inv:     #FFFFFF;
   --latte:        #E6E6E6;   /* разделители и рамки */
   --muted:        #9E9E9E;   /* неактивные иконки, пустые состояния */
@@ -17,7 +29,7 @@
   --nav-h:        56px;
   --safe-b:       env(safe-area-inset-bottom, 0px);
   --radius:       10px;
-  --font:         -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font:         'Roboto App', Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 /* дробная часть суммы и знак ₽ — на 30% меньше */
@@ -127,8 +139,8 @@ button {
 }
 
 .date-label {
-  font-size: 15px;
-  color: var(--text);
+  font-size: 17px;
+  color: #555555;
   cursor: pointer;
   display: inline-block;
   border-bottom: 1px dashed var(--latte);
@@ -154,13 +166,13 @@ button {
   background: transparent;
   font-size: 44px;
   font-weight: 300;
-  color: var(--text);
+  color: var(--amount);
   outline: none;
   line-height: 1.1;
 }
 
 .amount-input::placeholder {
-  color: var(--text);
+  color: var(--amount);
   opacity: 1;
 }
 
@@ -181,13 +193,14 @@ button {
   border: none;
   background: transparent;
   padding: 13px 0;
-  font-size: 15px;
-  color: var(--text);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text-soft);
   outline: none;
 }
 
 .field-input::placeholder {
-  color: #777777;
+  color: var(--text-hint);
   opacity: 1;
 }
 
@@ -222,10 +235,11 @@ button {
   justify-content: space-between;
   align-items: center;
   padding: 13px 16px;
-  font-size: 15px;
-  color: var(--text);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text-soft);
   cursor: pointer;
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* разделители как в Depoza */
   user-select: none;
 }
 
