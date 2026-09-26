@@ -13,7 +13,7 @@
      не попадают.
    ============================================= */
 
-const DROPBOX_APP_KEY = ''; // ← вставить App key из dropbox.com/developers/apps
+const DROPBOX_APP_KEY = 'y6is3tnh4nzw6ln'; // App key из dropbox.com/developers/apps (не секретный, PKCE)
 
 const CLOUD_KEY = 'myfinance_dropbox';
 const CLOUD_FILE = '/myfinance_backup.json';
