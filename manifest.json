@@ -1,6 +1,6 @@
 {
   "name": "My Finance",
-  "short_name": "Finance",
+  "short_name": "My Finance",
   "description": "Личный учёт расходов",
   "start_url": "./index.html",
   "display": "standalone",
