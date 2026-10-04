@@ -87,6 +87,12 @@ function saveExpenseFromForm() {
 function initExpensesScreen() {
   exp.date = getTodayStr();
   makeAmountField(document.getElementById('amount-input'));
+  makeTextField(document.getElementById('category-search'));
+  makeTextField(document.getElementById('note-input'));
+  // тап по строке суммы (в т.ч. по ₽) — фокус в поле
+  document.querySelector('.amount-line').addEventListener('click', e => {
+    if (e.target.id !== 'amount-input') document.getElementById('amount-input').focus();
+  });
 
   document.getElementById('expense-date-label').addEventListener('click', () => {
     pickDate(exp.date, d => { exp.date = d; renderExpenseForm(); });

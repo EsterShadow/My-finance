@@ -172,6 +172,51 @@ function makeAmountField(el) {
   el.addEventListener('focus', () => setTimeout(caretToEnd, 0));
 }
 
+// ---- Текстовое поле без полосы автозаполнения ----
+// Однострочный редактируемый блок вместо <input type="text">.
+// Свойства .value и .readOnly работают как у обычного поля.
+
+function makeTextField(el) {
+  Object.defineProperty(el, 'value', {
+    get: () => el.textContent.replace(/ /g, ' '),
+    set: v => { el.textContent = v == null ? '' : String(v); },
+    configurable: true
+  });
+  Object.defineProperty(el, 'readOnly', {
+    get: () => el.getAttribute('contenteditable') !== 'true',
+    set: v => {
+      el.setAttribute('contenteditable', v ? 'false' : 'true');
+      el.classList.toggle('readonly', !!v);
+    },
+    configurable: true
+  });
+
+  const caretToEnd = () => {
+    const r = document.createRange();
+    r.selectNodeContents(el);
+    r.collapse(false);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(r);
+  };
+
+  // одна строка: Enter не переносит строку (обработчики Enter у экранов сохраняются)
+  el.addEventListener('keydown', e => { if (e.key === 'Enter') e.preventDefault(); });
+  // переносы и разметка при вставке и наборе — убрать
+  el.addEventListener('input', () => {
+    if (el.children.length || /\n/.test(el.textContent)) {
+      el.textContent = el.textContent.replace(/\s*\n\s*/g, ' ');
+      caretToEnd();
+    }
+  });
+  el.addEventListener('paste', e => {
+    e.preventDefault();
+    const t = (e.clipboardData || window.clipboardData).getData('text').replace(/\s*\n\s*/g, ' ');
+    document.execCommand('insertText', false, t);
+  });
+  el.addEventListener('focus', () => setTimeout(caretToEnd, 0));
+}
+
 // ---- Выбор даты (системный календарь) ----
 
 function pickDate(initialISO, onPick) {

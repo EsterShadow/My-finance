@@ -11,9 +11,9 @@ function openExpenseEditor(expense, onDone) {
   box.innerHTML = `
     <div class="editor-body">
       <button class="date-label js-date"></button>
-      <div class="amount-input editor-amount js-amount" contenteditable="true" inputmode="decimal" enterkeyhint="done" role="textbox" aria-label="Сумма" data-placeholder="0,00"></div>
+      <div class="amount-line editor-amount-line"><div class="amount-input editor-amount js-amount" contenteditable="true" inputmode="decimal" enterkeyhint="done" role="textbox" aria-label="Сумма" data-placeholder="0,00"></div><span class="amount-rub">₽</span></div>
       <button class="editor-category js-cat"></button>
-      <input class="field-input editor-note js-note" placeholder="Описание" value="${escapeHTML(expense.note || '')}">
+      <div class="field-input editor-note js-note" contenteditable="true" enterkeyhint="done" role="textbox" aria-label="Описание" data-placeholder="Описание"></div>
     </div>
     <div class="editor-actions">
       <button class="js-delete">${ICONS.trash}<span>Удалить</span></button>
@@ -24,6 +24,9 @@ function openExpenseEditor(expense, onDone) {
   const $ = s => box.querySelector(s);
   makeAmountField($('.js-amount'));
   $('.js-amount').value = formatAmount(expense.amount).replace(/\s/g, '');
+  makeTextField($('.js-note'));
+  $('.js-note').value = expense.note || '';
+  $('.amount-line').addEventListener('click', e => { if (!e.target.classList.contains('js-amount')) $('.js-amount').focus(); });
   const render = () => {
     $('.js-date').textContent = _dateLabel(st.date);
     $('.js-cat').textContent = st.category;

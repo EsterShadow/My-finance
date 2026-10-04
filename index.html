@@ -29,16 +29,16 @@
     <div id="tab-expenses" class="tab-content active">
       <div class="expense-top">
         <button id="expense-date-label" class="date-label">сегодня</button>
-        <div id="amount-input" class="amount-input" contenteditable="true" inputmode="decimal" enterkeyhint="done" role="textbox" aria-label="Сумма" data-placeholder="0,00"></div>
+        <div class="amount-line"><div id="amount-input" class="amount-input" contenteditable="true" inputmode="decimal" enterkeyhint="done" role="textbox" aria-label="Сумма" data-placeholder="0,00"></div><span class="amount-rub">₽</span></div>
       </div>
 
       <div class="field-row">
-        <input type="text" id="category-search" class="field-input" placeholder="Начните вводить категорию" autocomplete="off">
+        <div id="category-search" class="field-input" contenteditable="true" enterkeyhint="done" role="textbox" aria-label="Категория" data-placeholder="Начните вводить категорию"></div>
         <button id="btn-add-category" class="btn-add-cat hidden" aria-label="Создать категорию">✓</button>
         <button id="btn-clear-category" class="btn-clear-cat hidden" aria-label="Сбросить категорию">✕</button>
       </div>
       <div id="note-row" class="field-row note-row hidden">
-        <input type="text" id="note-input" class="field-input" placeholder="Описание" autocomplete="off">
+        <div id="note-input" class="field-input" contenteditable="true" enterkeyhint="done" role="textbox" aria-label="Описание" data-placeholder="Описание"></div>
       </div>
 
       <div id="category-list" class="category-list"></div>

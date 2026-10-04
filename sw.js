@@ -2,7 +2,7 @@
    SERVICE WORKER — cache-first, офлайн-режим
    ============================================= */
 
-const CACHE_NAME = 'myfinance-v15';
+const CACHE_NAME = 'myfinance-v16';
 
 const ASSETS = [
   './',
@@ -29,6 +29,9 @@ const ASSETS = [
   './fonts/roboto-latin-400-normal.woff2',
   './fonts/roboto-cyrillic-500-normal.woff2',
   './fonts/roboto-latin-500-normal.woff2',
+  './fonts/roboto-rub-300.woff2',
+  './fonts/roboto-rub-400.woff2',
+  './fonts/roboto-rub-500.woff2',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-512-maskable.png',
