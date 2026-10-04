@@ -75,7 +75,7 @@ button { cursor: pointer; border: none; background: none; padding: 0; text-align
    ============================================= */
 .expense-top { padding: 18px var(--gutter) 22px; flex-shrink: 0; }
 .date-label { font-size: 14px; color: #555555; border-bottom: 1px dashed #D6D6D6; padding-bottom: 1px; margin-bottom: 10px; }
-.amount-input { display: block; width: 100%; border: none; background: transparent; font-size: 35px; font-weight: 300; color: var(--amount); outline: none; line-height: 1.15; }
+.amount-input { display: block; width: 100%; border: none; background: transparent; font-size: 36px; font-weight: 300; color: var(--amount); outline: none; line-height: 1.15; }
 .amount-input::placeholder { color: var(--amount); opacity: 1; }
 .amount-input[contenteditable] { white-space: nowrap; overflow: hidden; min-height: 1.15em; caret-color: var(--accent); -webkit-user-select: text; user-select: text; }
 .amount-input[contenteditable]:empty::before { content: attr(data-placeholder); color: var(--amount); pointer-events: none; }
@@ -88,9 +88,8 @@ button { cursor: pointer; border: none; background: none; padding: 0; text-align
 .btn-add-cat, .btn-clear-cat { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 18px; color: var(--bean); flex-shrink: 0; }
 .btn-add-cat { color: var(--accent); font-size: 20px; }
 .category-list { flex: 1; }
-/* Экран «Расходы» — на ступень жирнее остальных экранов (Light → Regular, Regular → Medium) */
-#tab-expenses .amount-input, #tab-expenses .field-input, #tab-expenses .category-item { font-weight: 400; }
-#tab-expenses .date-label { font-weight: 500; }
+/* Экран «Расходы»: поле категории, описание и список — Regular (сумма и дата остаются как были) */
+#tab-expenses .field-input, #tab-expenses .category-item { font-weight: 400; }
 .category-item { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 16px var(--gutter); font-size: 14px; font-weight: 300; color: var(--text-soft); user-select: none; position: relative; }
 .category-item::after, .history-row::after { content: ''; position: absolute; left: var(--gutter); right: var(--gutter); bottom: 0; height: 1px; background: rgba(0, 0, 0, 0.06); transform: scaleY(var(--hair)); transform-origin: bottom; }
 .category-item:active { background: var(--accent-tint); }
