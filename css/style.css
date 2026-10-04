@@ -88,6 +88,9 @@ button { cursor: pointer; border: none; background: none; padding: 0; text-align
 .btn-add-cat, .btn-clear-cat { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 18px; color: var(--bean); flex-shrink: 0; }
 .btn-add-cat { color: var(--accent); font-size: 20px; }
 .category-list { flex: 1; }
+/* Экран «Расходы» — на ступень жирнее остальных экранов (Light → Regular, Regular → Medium) */
+#tab-expenses .amount-input, #tab-expenses .field-input, #tab-expenses .category-item { font-weight: 400; }
+#tab-expenses .date-label { font-weight: 500; }
 .category-item { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 16px var(--gutter); font-size: 14px; font-weight: 300; color: var(--text-soft); user-select: none; position: relative; }
 .category-item::after, .history-row::after { content: ''; position: absolute; left: var(--gutter); right: var(--gutter); bottom: 0; height: 1px; background: rgba(0, 0, 0, 0.06); transform: scaleY(var(--hair)); transform-origin: bottom; }
 .category-item:active { background: var(--accent-tint); }
@@ -111,13 +114,13 @@ button { cursor: pointer; border: none; background: none; padding: 0; text-align
 .report-card-icons .active { color: var(--accent); }
 .report-empty-note { font-size: 13px; color: #444444; margin-top: 8px; }
 .report-rows { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
-.report-row { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: #444444; }
+.report-row { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; color: #444444; }
 .report-row-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .report-row-amount { flex-shrink: 0; }
 .report-top3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 12px; text-align: center; }
 .report-top3-item { display: flex; flex-direction: column; min-width: 0; }
-.report-top3-amount { font-size: 13px; color: #444444; }
-.report-top3-label { font-size: 11px; color: var(--bean); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.report-top3-amount { font-size: 14px; color: #444444; }
+.report-top3-label { font-size: 12px; margin-top: 3px; color: var(--bean); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .report-period-label { font-size: 12px; color: var(--bean); margin-top: 4px; }
 .chart { margin-top: 10px; }
 .chart svg { display: block; width: 100%; height: 120px; }
