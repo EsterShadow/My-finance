@@ -29,7 +29,7 @@
     <div id="tab-expenses" class="tab-content active">
       <div class="expense-top">
         <button id="expense-date-label" class="date-label">сегодня</button>
-        <input type="text" id="amount-input" class="amount-input" inputmode="decimal" placeholder="0,00" autocomplete="off">
+        <div id="amount-input" class="amount-input" contenteditable="true" inputmode="decimal" enterkeyhint="done" role="textbox" aria-label="Сумма" data-placeholder="0,00"></div>
       </div>
 
       <div class="field-row">
@@ -84,30 +84,15 @@
     <!-- ===== НИЖНЯЯ НАВИГАЦИЯ ===== -->
     <nav class="bottom-nav">
       <button class="nav-btn" data-tab="reports">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-          <rect x="3" y="3" width="8" height="8" rx="1.5"/>
-          <rect x="13" y="3" width="8" height="8" rx="1.5"/>
-          <rect x="3" y="13" width="8" height="8" rx="1.5"/>
-          <rect x="13" y="13" width="8" height="8" rx="1.5"/>
-        </svg>
+        <span class="nav-ico" style="-webkit-mask-image:url(icons/nav/reports.png);mask-image:url(icons/nav/reports.png)"></span>
         <span>Отчёты</span>
       </button>
       <button class="nav-btn active" data-tab="expenses">
-        <svg width="22" height="22" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="10" fill="currentColor"/>
-          <path d="M12 7v10M7 12h10" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
+        <span class="nav-ico" style="-webkit-mask-image:url(icons/nav/expenses.png);mask-image:url(icons/nav/expenses.png)"></span>
         <span>Расходы</span>
       </button>
       <button class="nav-btn" data-tab="history">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <line x1="3" y1="12" x2="21" y2="12"/>
-          <line x1="3" y1="18" x2="21" y2="18"/>
-          <rect x="3" y="4" width="4" height="4" fill="currentColor" stroke="none" rx="0.5"/>
-          <rect x="3" y="10" width="4" height="4" fill="currentColor" stroke="none" rx="0.5"/>
-          <rect x="3" y="16" width="4" height="4" fill="currentColor" stroke="none" rx="0.5"/>
-        </svg>
+        <span class="nav-ico" style="-webkit-mask-image:url(icons/nav/history.png);mask-image:url(icons/nav/history.png)"></span>
         <span>История</span>
       </button>
     </nav>

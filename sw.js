@@ -2,7 +2,7 @@
    SERVICE WORKER — cache-first, офлайн-режим
    ============================================= */
 
-const CACHE_NAME = 'myfinance-v11';
+const CACHE_NAME = 'myfinance-v12';
 
 const ASSETS = [
   './',
@@ -31,7 +31,10 @@ const ASSETS = [
   './fonts/roboto-latin-500-normal.woff2',
   './icons/icon-192.png',
   './icons/icon-512.png',
-  './icons/icon-512-maskable.png'
+  './icons/icon-512-maskable.png',
+  './icons/nav/reports.png',
+  './icons/nav/expenses.png',
+  './icons/nav/history.png'
 ];
 
 self.addEventListener('install', event => {

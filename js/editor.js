@@ -11,7 +11,7 @@ function openExpenseEditor(expense, onDone) {
   box.innerHTML = `
     <div class="editor-body">
       <button class="date-label js-date"></button>
-      <input class="amount-input editor-amount js-amount" inputmode="decimal" value="${formatAmount(expense.amount).replace(/\s/g, '')}">
+      <div class="amount-input editor-amount js-amount" contenteditable="true" inputmode="decimal" enterkeyhint="done" role="textbox" aria-label="Сумма" data-placeholder="0,00"></div>
       <button class="editor-category js-cat"></button>
       <input class="field-input editor-note js-note" placeholder="Описание" value="${escapeHTML(expense.note || '')}">
     </div>
@@ -22,6 +22,8 @@ function openExpenseEditor(expense, onDone) {
     </div>
   `;
   const $ = s => box.querySelector(s);
+  makeAmountField($('.js-amount'));
+  $('.js-amount').value = formatAmount(expense.amount).replace(/\s/g, '');
   const render = () => {
     $('.js-date').textContent = _dateLabel(st.date);
     $('.js-cat').textContent = st.category;

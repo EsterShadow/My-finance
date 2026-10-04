@@ -134,6 +134,44 @@ function showToast(text) {
   _toastTimer = setTimeout(() => t.classList.remove('visible'), 2200);
 }
 
+// ---- Поле суммы ----
+// Сумма вводится не в <input>, а в редактируемый блок: над клавиатурой
+// Chrome на Android показывает у полей ввода полосу автозаполнения
+// (пароли / карты / адреса), а у такого блока — нет.
+// У элемента появляется свойство .value, как у обычного поля.
+
+function makeAmountField(el) {
+  Object.defineProperty(el, 'value', {
+    get: () => el.textContent,
+    set: v => { el.textContent = v == null ? '' : String(v); },
+    configurable: true
+  });
+
+  const caretToEnd = () => {
+    const r = document.createRange();
+    r.selectNodeContents(el);
+    r.collapse(false);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(r);
+  };
+
+  // Только цифры и один разделитель, не больше двух знаков после него
+  el.addEventListener('input', () => {
+    const raw = el.textContent;
+    let clean = raw.replace(/[^\d.,]/g, '').replace('.', ',');
+    const i = clean.indexOf(',');
+    if (i >= 0) clean = clean.slice(0, i + 1) + clean.slice(i + 1).replace(/[.,]/g, '').slice(0, 2);
+    if (clean !== raw) { el.textContent = clean; caretToEnd(); }
+  });
+  el.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); el.blur(); } });
+  el.addEventListener('paste', e => {
+    e.preventDefault();
+    document.execCommand('insertText', false, (e.clipboardData || window.clipboardData).getData('text'));
+  });
+  el.addEventListener('focus', () => setTimeout(caretToEnd, 0));
+}
+
 // ---- Выбор даты (системный календарь) ----
 
 function pickDate(initialISO, onPick) {

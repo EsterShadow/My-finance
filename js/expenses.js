@@ -86,6 +86,7 @@ function saveExpenseFromForm() {
 
 function initExpensesScreen() {
   exp.date = getTodayStr();
+  makeAmountField(document.getElementById('amount-input'));
 
   document.getElementById('expense-date-label').addEventListener('click', () => {
     pickDate(exp.date, d => { exp.date = d; renderExpenseForm(); });
