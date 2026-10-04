@@ -2,7 +2,7 @@
    SERVICE WORKER — cache-first, офлайн-режим
    ============================================= */
 
-const CACHE_NAME = 'myfinance-v14';
+const CACHE_NAME = 'myfinance-v15';
 
 const ASSETS = [
   './',
@@ -39,7 +39,10 @@ const ASSETS = [
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
+    // cache: 'reload' — брать файлы с сервера, а не из HTTP-кэша браузера,
+    // иначе в новый кэш могут попасть файлы предыдущей версии
+    caches.open(CACHE_NAME).then(cache =>
+      cache.addAll(ASSETS.map(url => new Request(url, { cache: 'reload' }))))
   );
   self.skipWaiting();
 });

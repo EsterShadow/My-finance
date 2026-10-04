@@ -110,7 +110,7 @@ icons/nav/          — иконки нижней панели (PNG-маски, 
 - Личные категории попадают на устройство только из данных (импорт / восстановление из Dropbox), в коде — только 10 стандартных
 
 ## Service Worker
-- Текущая версия кэша: `myfinance-v14`
+- Текущая версия кэша: `myfinance-v15`
 - Cache-first стратегия
 - При смене файлов увеличивать версию (`myfinance-v7`, `v8`...)
 - Для сброса кэша при разработке: DevTools → Application → Service Workers → Unregister → Ctrl+Shift+R

@@ -4,7 +4,7 @@
    ============================================= */
 
 // Версия приложения — менять вместе с новой записью в CHANGELOG.md
-const APP_VERSION = '2.0.3';
+const APP_VERSION = '2.0.4';
 
 let activeTab = 'expenses';
 
@@ -59,7 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+    navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' })
+      .then(reg => reg.update())
+      .catch(() => {});
   }
 
   // Автокопия в Dropbox (в т.ч. обработка возврата после входа в Dropbox)
