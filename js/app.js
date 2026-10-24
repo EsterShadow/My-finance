@@ -4,7 +4,7 @@
    ============================================= */
 
 // Версия приложения — менять вместе с новой записью в CHANGELOG.md
-const APP_VERSION = '2.0.5';
+const APP_VERSION = '2.0.6';
 
 let activeTab = 'expenses';
 

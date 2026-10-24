@@ -219,21 +219,30 @@ function makeTextField(el) {
 
 // ---- Выбор даты (системный календарь) ----
 
+// Одно скрытое поле на всё приложение. Раньше поле удалялось через 0,5 с
+// после потери фокуса — на Android календарь открывается отдельным окном,
+// поле теряет фокус сразу, и к нажатию «OK» его уже не было: дата не менялась.
+let _dateInput = null;
+let _onDatePick = null;
+
 function pickDate(initialISO, onPick) {
-  const input = document.createElement('input');
-  input.type = 'date';
-  input.className = 'date-input-hidden';
-  input.value = initialISO || getTodayStr();
-  document.body.appendChild(input);
-  let done = false;
-  input.addEventListener('change', () => {
-    if (done) return;
-    done = true;
-    if (input.value) onPick(input.value);
-    input.remove();
-  });
-  input.addEventListener('blur', () => setTimeout(() => { if (!done) input.remove(); }, 500));
-  try { input.showPicker(); } catch { input.click(); }
+  if (!_dateInput) {
+    _dateInput = document.createElement('input');
+    _dateInput.type = 'date';
+    _dateInput.className = 'date-input-hidden';
+    _dateInput.tabIndex = -1;
+    const fire = () => {
+      const cb = _onDatePick;
+      _onDatePick = null;
+      if (cb && _dateInput.value) cb(_dateInput.value);
+    };
+    _dateInput.addEventListener('change', fire);
+    _dateInput.addEventListener('input', fire);
+    document.body.appendChild(_dateInput);
+  }
+  _onDatePick = onPick;
+  _dateInput.value = initialISO || getTodayStr();
+  try { _dateInput.showPicker(); } catch { _dateInput.focus(); _dateInput.click(); }
 }
 
 // ---- Иконки (SVG) ----

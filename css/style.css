@@ -97,7 +97,7 @@ div.field-input:empty::before { content: attr(data-placeholder); color: var(--te
 .amount-line { display: flex; align-items: baseline; gap: 8px; cursor: text; }
 /* ₽ на 30% меньше цифр, как в отчётах и Истории */
 .amount-rub { font-size: 25px; font-weight: 300; color: var(--amount); flex-shrink: 0; }
-.editor-amount-line { gap: 6px; }
+.editor-amount-line { gap: 6px; align-self: stretch; }
 .editor-amount-line .amount-rub { font-size: 21px; }
 .btn-add-cat, .btn-clear-cat { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 18px; color: var(--bean); flex-shrink: 0; }
 .btn-add-cat { color: var(--accent); font-size: 20px; }
