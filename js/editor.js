@@ -10,7 +10,7 @@ function openExpenseEditor(expense, onDone) {
   box.className = 'dialog expense-editor';
   box.innerHTML = `
     <div class="editor-body">
-      <button class="date-label js-date"></button>
+      <label class="date-pick"><span class="date-label js-date"></span><input type="date" class="date-overlay js-date-input" aria-label="Дата"></label>
       <div class="amount-line editor-amount-line"><div class="amount-input editor-amount js-amount" contenteditable="true" inputmode="decimal" enterkeyhint="done" role="textbox" aria-label="Сумма" data-placeholder="0,00"></div><span class="amount-rub">₽</span></div>
       <button class="editor-category js-cat"></button>
       <div class="field-input editor-note js-note" contenteditable="true" enterkeyhint="done" role="textbox" aria-label="Описание" data-placeholder="Описание"></div>
@@ -32,7 +32,15 @@ function openExpenseEditor(expense, onDone) {
     $('.js-cat').textContent = st.category;
   };
 
-  $('.js-date').addEventListener('click', () => pickDate(st.date, d => { st.date = d; render(); }));
+  // Дата: настоящее поле <input type="date"> поверх подписи — тап открывает календарь
+  // напрямую. Программный вызов календаря (pickDate) из этого окна на Android
+  // не возвращал выбранную дату.
+  const dateInput = $('.js-date-input');
+  dateInput.value = st.date;
+  const onDate = () => { if (dateInput.value && dateInput.value !== st.date) { st.date = dateInput.value; render(); } };
+  dateInput.addEventListener('change', onDate);
+  dateInput.addEventListener('input', onDate);
+  dateInput.addEventListener('click', () => { try { dateInput.showPicker(); } catch {} });
   $('.js-cat').addEventListener('click', () => openCategoryChooser(c => { st.category = c; render(); }));
   $('.js-delete').addEventListener('click', () => {
     if (!confirm('Удалить запись?')) return;
