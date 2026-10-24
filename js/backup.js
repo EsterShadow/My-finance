@@ -1,7 +1,7 @@
 /* =============================================
    BACKUP.JS — резервная копия (JSON) и импорт
    Поддерживаемые форматы импорта:
-   1. Собственный бэкап My Finance: { app: "myfinance", expenses, categories }
+   1. Собственный бэкап My finance: { app: "myfinance", expenses, categories }
    2. Экспорт из Depoza (depoza_export.json): { transactions: [{ id, datetime, amount, category, description }], categories }
    Импорт ДОБАВЛЯЕТ данные: записи с уже существующим id пропускаются,
    поэтому повторный импорт того же файла ничего не задвоит.

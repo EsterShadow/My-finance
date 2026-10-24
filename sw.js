@@ -2,7 +2,7 @@
    SERVICE WORKER — cache-first, офлайн-режим
    ============================================= */
 
-const CACHE_NAME = 'myfinance-v18';
+const CACHE_NAME = 'myfinance-v19';
 
 const ASSETS = [
   './',
